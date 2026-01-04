@@ -1,0 +1,21 @@
+# SRV_Net_Cash_Position_NEGATIVE
+
+## Description
+The applicant’s estimated monthly income is insufficient to cover
+declared liabilities, living expenses, and the proposed loan repayment.
+
+## Evaluation Logic
+net_surplus = income - expenses - liabilities - proposed_repayment
+
+## Threshold
+net_surplus must be ≥ 0
+
+## Typical Improvements
+- Increase income
+- Reduce existing liabilities
+- Reduce discretionary expenses
+- Apply for a lower loan amount
+
+## Notes
+This assessment uses conservative expense assumptions to ensure
+the applicant can maintain a reasonable standard of living.

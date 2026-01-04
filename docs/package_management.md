@@ -179,6 +179,9 @@ __version__ = "0.1.0"
 
 
 
+
+
+
 ## Using uv for Installs & Running Commands
 ### Create / sync the environment
 ```bash
@@ -244,9 +247,13 @@ This reduces relative import confusion and makes refactors safer.
 ### CI / Reproducibility Expectations
 
 Minimum reproducibility expectations for this repository:
+
 pyproject.toml is the single dependency definition
+
 uv manages the environment
+
 tests run using uv run pytest
+
 no global Python dependencies are required
 
 ### Common Pitfalls (and How We Avoid Them)
@@ -263,15 +270,23 @@ src/ layout prevents this
 ### Definition of Done (Package Management)
 
 This section is considered complete when:
+
 uv sync succeeds on a fresh machine
+
 uv run pytest runs without import hacks
+
 uv run uvicorn decisioning.service.api:app --reload works
+
 importing any module via from decisioning... works anywhere
+
 pip install -e . is documented and functional
 
 ### Optional Extensions
 
 If needed, add:
+
 a matching Makefile (e.g. make test, make run-api)
+
 a minimal Dockerfile that installs the package cleanly
+
 a pre-commit configuration for ruff + formatting

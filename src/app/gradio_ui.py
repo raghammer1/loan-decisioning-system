@@ -1,10 +1,11 @@
 import gradio as gr
 from app.llm.client import generate
+from pathlib import Path
 
-SYSTEM_PROMPT = (
-    "You are a helpful assistant for a credit/loan decisioning project. "
-    "Be concise, explain assumptions, and ask clarifying questions when needed."
-)
+
+PROMPT_PATH = Path(__file__).parent / "llm" / "prompts" / "prompt.txt"
+SYSTEM_PROMPT = PROMPT_PATH.read_text(encoding="utf-8")
+
 
 def ensure_history(history):
     return history if isinstance(history, list) else []

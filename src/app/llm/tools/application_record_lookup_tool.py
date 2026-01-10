@@ -1,5 +1,6 @@
 import csv
 import json
+import re
 
 from app.globals import curr_dir
 
@@ -23,6 +24,22 @@ def _load_application_index():
 
     _APPLICATION_INDEX = index
     return _APPLICATION_INDEX
+
+
+def extract_application_id(text: str) -> str | None:
+    match = re.search(r"\bAPP_\d+\b", text or "")
+    if match:
+        return match.group(0)
+
+    cleaned = (text or "").strip()
+    if cleaned.startswith("APP_") and " " not in cleaned:
+        return cleaned
+
+    return None
+
+
+def should_call_application_lookup(prompt: str) -> str | None:
+    return extract_application_id(prompt)
 
 
 def lookup_application_record(app_id: str) -> str:
@@ -70,3 +87,14 @@ def lookup_application_record(app_id: str) -> str:
         # "facts": facts,
     }
     return json.dumps(payload, indent=2, ensure_ascii=True)
+
+
+def apply_application_lookup(prompt: str, app_id: str) -> str:
+    tool_context = lookup_application_record(app_id)
+    lines = [
+        "ToolResult(application_record_lookup):",
+        tool_context,
+        "",
+        prompt,
+    ]
+    return "\n".join(lines)

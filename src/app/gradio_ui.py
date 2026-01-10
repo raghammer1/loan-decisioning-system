@@ -12,7 +12,7 @@ def ensure_history(history):
 
 def history_to_prompt(history):
     lines = [SYSTEM_PROMPT]
-    for m in history[-5:]:
+    for m in history:
         role = m.get("role", "")
         content = m.get("content", "")
         if role == "user":

@@ -1,9 +1,9 @@
 import gradio as gr
 from app.llm.client import generate
-from pathlib import Path
+from app.globals import curr_dir
 
 
-PROMPT_PATH = Path(__file__).parent / "llm" / "prompts" / "prompt.txt"
+PROMPT_PATH = curr_dir / "llm" / "prompts" / "prompt.txt"
 SYSTEM_PROMPT = PROMPT_PATH.read_text(encoding="utf-8")
 
 

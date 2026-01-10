@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv
 from google import genai
 
+from app.llm.tools.tool import enrich_prompt_with_tools
+
 load_dotenv()
 
 
@@ -13,11 +15,16 @@ def _gemini_client():
         _client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     return _client
 
-def generate(prompt: str) -> str:
+def _call_llm_raw(prompt: str) -> str:
     provider = os.getenv("LLM_PROVIDER", "gemini").lower()
-
     if provider == "gemini":
         client = _gemini_client()
         model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
         resp = client.models.generate_content(model=model, contents=prompt)
         return resp.text or ""
+    return ""
+
+
+def generate(prompt: str) -> str:
+    prompt = enrich_prompt_with_tools(prompt, llm_call=_call_llm_raw)
+    return _call_llm_raw(prompt)

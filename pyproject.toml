@@ -45,3 +45,14 @@ src = ["src"]
 python_version = "3.11"
 mypy_path = ["src"]
 strict = false
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+
+[dependency-groups]
+dev = [
+    "black>=25.12.0",
+]
+

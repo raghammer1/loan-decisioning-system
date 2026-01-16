@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+  "black-formatter.args": ["--line-length", "100"],
+  "ruff.enable": true,
+  "ruff.lint.run": "onSave",
+  "ruff.lint.args": ["--line-length", "100"]
+}

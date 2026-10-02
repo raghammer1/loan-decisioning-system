@@ -1,10 +1,10 @@
 [project]
 name = "decisioning-system"
 version = "0.1.0"
-description = "Modular credit decisioning platform with explainable outcomes"
+description = "Loan explanation prototype with an incomplete decision-engine scaffold"
 readme = "README.md"
 requires-python = ">=3.11"
-authors = [{ name = "Raghav", email = "you@example.com" }, { name = "Anmol", email = "you@example.com" }]
+authors = [{ name = "Raghav" }, { name = "Anmol" }]
 
 dependencies = [
   "polars>=1.0.0",

@@ -1,81 +1,39 @@
-# Modular Loan Decisioning Platform with Explainable Outcomes
+# Loan explanation prototype
 
-## Overview
-This project implements a **modular, production-style credit decisioning system** inspired by real-world financial institutions.
+A learning project exploring explanations of sample loan outcomes. The repository contains an LLM explanation layer and an **incomplete decision-engine scaffold**. It is not a completed underwriting engine or a production service.
 
-Unlike toy rule engines or notebook-based ML demos, this system is structured as a **multi-stage decision pipeline** with explicit domain ownership:
+## Implementation status
 
-- Eligibility
-- Verification
-- Bureau
-- Servicing
-- Decisioning
+| Area | Current source state |
+| --- | --- |
+| Explanation layer | Gemini client, tool routing, CSV record lookup, prompt construction and Gradio chat code are present. They require configuration and compatible dependencies. |
+| HTTP API | `/health` and `/ask` routes exist. `/ask` currently calls `generate` with one argument although its implementation requires two; this path needs repair before use. |
+| Decision pipeline | Eligibility, verification, bureau, servicing and decision modules are scaffolded. Several modules, policy-rule files and call wrappers are empty. |
+| Tests and CI | No checked-in test suite or CI workflow was found on the reviewed branch. A pytest configuration is not a passing test suite. |
+| ML and persistence | Design documents discuss ML scoring, DuckDB and Parquet. A working end-to-end implementation has not been established. |
 
-Each module produces **deterministic outcomes, reason codes, and structured evidence**, which are then consumed by an **explanation chatbot** that translates decisions into human-readable explanations — without ever making decisions itself.
+## Source map
 
-The goal is to demonstrate **engineering maturity**, not business correctness.
+- `src/app/gradio_ui.py`: chat interface and history-to-prompt assembly.
+- `src/app/llm/client.py`: Gemini calls and tool enrichment.
+- `src/app/llm/tools/`: tool dispatch and sample application-record lookup.
+- `src/decisioning/`: incomplete decision and policy scaffold.
+- `data/`: sample CSV files, not evidence of real lending outcomes.
+- `docs/`: design intentions and project notes; see the status table above before treating a document as implemented behavior.
 
----
+The explanation path reads sample records and constructs a model prompt. It does not establish a complete decision pipeline. This project is separate from any employer system and must not be used to make real lending decisions.
 
-## Why This Project Exists
-Real credit systems are not a single ruleset or ML model.  
-They are **pipelines of independently-owned modules**, each responsible for a specific risk domain, operating under strict governance, explainability, and performance constraints.
+## Local development prerequisites
 
-This project exists to show:
-- how such systems are architected
-- how explainability is preserved end-to-end
-- how ML can be integrated safely
-- how decisions can be audited and replayed
+Python 3.11 or later. `pyproject.toml` declares core dependencies but does not currently declare all imports used by the UI and model layer (`gradio` and `google-genai`). The wheel configuration includes `src/decisioning`, not the `app` package. Resolve these packaging gaps before treating installation as reproducible.
 
----
+The intended source-tree entry points are documented in [how to run](docs/how_to_run.md). Gemini use requires your own `GEMINI_API_KEY` and may incur provider charges. No model calls are required to read or inspect this repository. Do not put credentials, real customer records or employer policies into the source or prompts.
 
-## Key Principles
-- **Modules compute facts; decisioning aggregates facts**
-- **Rules are deterministic; ML is advisory**
-- **Explainability is a first-class output**
-- **Chatbot explains decisions; it never creates them**
+## Next engineering steps
 
----
+1. Repair the HTTP call contract and declare the complete runtime dependencies.
+2. Implement one deterministic vertical slice with explicit inputs, outcomes and reason codes.
+3. Add unit and integration tests for that slice, plus missing-record and provider-failure cases.
+4. Add CI, then update documentation using actual test and benchmark results.
 
-## System Flow (High Level)
-
-Application Intake  
-→ Eligibility  
-→ Verification  
-→ Bureau  
-→ Servicing  
-→ Decisioning  
-→ Decision Output + Explanation Object  
-→ Chat Explanation Layer
-
----
-
-## What This System Is NOT
-- A replica of any bank’s internal policies
-- A regulatory-compliant product
-- A personalized financial advisor
-- A UI-heavy loan application platform
-
----
-
-## Technology Stack
-- Python 3.11+
-- Polars (batch processing)
-- FastAPI (online decision API)
-- DuckDB / Parquet (local persistence)
-- scikit-learn / LightGBM (ML scoring)
-- Ollama + open-source LLM (explanations only)
-
-All components run **locally and free**.
-
----
-
-## Deliverables
-- Deterministic decision engine with tests
-- Modular domain separation
-- ML risk scoring (optional layer)
-- Structured explanation objects
-- Chat-based explanation service
-- Design documentation + diagrams
-
-See `docs/design.md` for full details.
+No performance, fairness, compliance or production-readiness result is claimed.

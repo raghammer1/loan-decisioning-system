@@ -1,3 +1,5 @@
+> Design notes: this document may describe planned behavior. See the [current implementation status](../README.md) before treating any feature, test or performance target as delivered.
+
 # Architecture Notes
 
 - Batch-first design ensures correctness and auditability

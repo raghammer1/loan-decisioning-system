@@ -1,3 +1,5 @@
+> Design notes: this document may describe planned behavior. See the [current implementation status](../README.md) before treating any feature, test or performance target as delivered.
+
 # Simplified Credit Decisioning Flow (Project Version)
 
 This document describes a **reduced, practical version** of an enterprise personal-loan decisioning flow.
